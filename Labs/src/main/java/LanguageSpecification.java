@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LanguageSpecification {
 
-    private final String[] separators = {"[", "]", "(", ")", ";", " ", ":", "\n", "{", "}"};
+    private final String[] separators = {"[", "]", "(", ")", ";", " ", ":", "\n", "{", "}", "'"};
     private final String[] operators = {"+", "-", "*", "/", "%", "=", "<", "<=", "==", ">=", ">", "!=", "and", "or", "!"};
     private final String[] reservedWords = {"int", "string", "bool", "while",
             "for", "if", "else", "read", "write", "or", "and", "false", "true"};

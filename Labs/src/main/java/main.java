@@ -1,7 +1,6 @@
 public class main {
 
     public static void main(String[] args){
-        SymbolTable st = new SymbolTable(100);
 
         /*System.out.println(st.Add("a"));
         System.out.println(st.Add("b"));
@@ -19,7 +18,7 @@ public class main {
         System.out.println(st.Search("ba"));*/
         LanguageSpecification languageSpecification = new LanguageSpecification();
         System.out.println(languageSpecification);
-        MyScanner scanner = new MyScanner("F:\\FLCD\\Labs\\src\\main\\java\\p2.txt");
-        System.out.println(scanner.tokenize());
+        MyScanner scanner = new MyScanner("F:\\FLCD\\Labs\\src\\main\\java\\p3ERR.txt");
+        scanner.ScanFile();
     }
 }

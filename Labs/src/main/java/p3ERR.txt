@@ -1,0 +1,17 @@
+int n;
+read($n);
+int i;
+int x;
+i = 1;
+int sum;
+o = -0;
+sum = 0;
+while (i<=n)
+{
+read(x);
+sum = sum + x;
+i = i + 1
+}
+i = 1;
+
+write(sum);
