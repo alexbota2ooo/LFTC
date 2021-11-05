@@ -1,11 +1,6 @@
-import Pair.Pair;
-
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-
 
 
 public class MyScanner {
@@ -42,7 +37,7 @@ public class MyScanner {
             while((line = br.readLine()) != null) {
                 List<String> tokenList = TokenizeLine(line);
                 System.out.println(tokenList);
-                ScanLine(tokenList, i, output);
+                Scan(tokenList, i, output);
                 i++;
             }
 
@@ -57,7 +52,6 @@ public class MyScanner {
             String filename = "F:\\FLCD\\Labs\\src\\main\\java\\Output.txt";
             FileWriter fw = new FileWriter(filename);
             fw.write(symbolTable.toString());
-//            fw.write(pif.toString());
             fw.write(output.toString());
             fw.close();
         } catch (Exception e) {
@@ -65,7 +59,7 @@ public class MyScanner {
         }
     }
 
-    public void ScanLine(List<String> tokens, int line, StringBuilder output) {
+    public void Scan(List<String> tokens, int line, StringBuilder output) {
         String lastToken = "";
 
         for(int i = 0; i < tokens.size(); ++i) {
@@ -90,7 +84,7 @@ public class MyScanner {
                     output.append("Token " + token + " -> pos: " + position + "\n");
                 }
                 else {
-                    output.append("Error at line " + line + ". Invalid token: " + token + "\n");
+                    output.append("Error at line " + line + ".token: " + token + "\n");
                 }
             }
             else if (isOperator(token) || isSeparator(token) || isReservedWord(token)) {
@@ -106,13 +100,48 @@ public class MyScanner {
                 output.append("Token " + token + " -> pos: " + position + "\n");
             }
             else {
-                output.append("Error at line " + line + ". Invalid token: " + token + "\n");
+                output.append("Error at line " + line + ". token: " + token + "\n");
             }
             lastToken = token;
         }
     }
 
 
+
+    public boolean isCharacter(String ch){
+        Pattern pattern = Pattern.compile("^\"[a-zA-Z0-9]\"$"); // any character
+        return (pattern.matcher(ch).matches());
+    }
+
+    public boolean isInteger(String ch){
+        Pattern pattern = Pattern.compile("[-]?\\d+");  // simple int
+        return (pattern.matcher(ch).matches());
+    }
+
+    public boolean isNumber(String token){
+        String number = "^([+|-]?[1-9][0-9]*)|0$";  //zero or one of [+ or -] [1-9] , 0 or more [0-9]
+        return token.matches(number);
+    }
+
+    public boolean isIdentifier(String token){
+        String pattern = "^[a-zA-Z]([a-zA-Z0-9_]*$)"; //(..) 0 or more occurrences
+        return token.matches(pattern);
+    }
+    public boolean isSeparator(String ch){
+        return specification.getSeparators().contains(ch);
+    }
+
+    public boolean isOperator(String ch){
+        return specification.getOperators().contains(ch);
+    }
+
+    public boolean isReservedWord(String ch){
+        return specification.getReservedWords().contains(ch);
+    }
+
+    public boolean isConstant(String ch){
+        return (isCharacter(ch) || isInteger(ch));
+    }
 
     public List<String> TokenizeLine(String line) {
         List<String> tokens = new ArrayList<>();
@@ -165,41 +194,4 @@ public class MyScanner {
         return tokens;
     }
 
-
-
-    public boolean isSeparator(String ch){
-        return specification.getSeparators().contains(ch);
-    }
-
-    public boolean isOperator(String ch){
-        return specification.getOperators().contains(ch);
-    }
-
-    public boolean isReservedWord(String ch){
-        return specification.getReservedWords().contains(ch);
-    }
-
-    public boolean isConstant(String ch){
-        return (isCharacter(ch) || isInteger(ch));
-    }
-
-    public boolean isCharacter(String ch){
-        Pattern pattern = Pattern.compile("^'[a-zA-Z0-9]'$"); // any character
-        return (pattern.matcher(ch).matches());
-    }
-
-    public boolean isInteger(String ch){
-        Pattern pattern = Pattern.compile("[-]?\\d+");  // simple int
-        return (pattern.matcher(ch).matches());
-    }
-
-    public boolean isNumber(String token){
-        String number = "^([+|-]?[1-9][0-9]*)|0$";  //zero or one of [+ or -] [1-9] , 0 or more [0-9]
-        return token.matches(number);
-    }
-
-    public boolean isIdentifier(String token){
-        String pattern = "^[a-zA-Z]([a-zA-Z0-9_]*$)"; //(..) 0 or more occurrences
-        return token.matches(pattern);
-    }
 }
