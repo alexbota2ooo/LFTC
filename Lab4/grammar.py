@@ -48,7 +48,7 @@ class Grammar:
             tokens = re.split(regexPattern, line)
             if tokens[2] == '':
                 tokens[2] = '-'
-            tokens[2]
+            tokens[2] = tokens[2].split(' ')
             if tokens[0] not in self.__productions.keys():
                 self.__productions[tokens[0]] = [tokens[2]]
             else:
@@ -83,7 +83,6 @@ class Grammar:
                 return False
             leftSide = self.__productions[key]
             for t in leftSide:
-                t = t.split(" ")
                 for symbol in t:
                     if symbol != "":
                         if symbol not in self.__nonterminals and symbol not in self.__alphabet and symbol != "epsilon":

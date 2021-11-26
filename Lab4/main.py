@@ -5,7 +5,8 @@ if __name__ == '__main__':
     option=-1
     grammar = Grammar("g2.in")
     parser = Parser(grammar)
-    #print(parser.recursive_descent())  trebuie adaugat 'w' ca sa putem testa
+
+    #print(parser.recursive_descent('a*+~*)')) # trebuie adaugat 'w' ca sa putem testa
     print(grammar.checkCFG())
     print("0. Exit")
     print("1. Set of NonTerminals")
@@ -13,6 +14,7 @@ if __name__ == '__main__':
     print("3. Starting Symbol")
     print("4. Productions")
     print("5. Get productions for a given non-terminal")
+    print("6. Get input sequence")
 
     while(option!=0):
         option=int(input("option:"))
@@ -26,4 +28,4 @@ if __name__ == '__main__':
             print(grammar.getProductions())
         elif option==5:
             nonterm = input("non-terminal")
-            print(grammar.getProdForNonTerm(nonterm)) 
+            print(grammar.getProdForNonTerm(nonterm))

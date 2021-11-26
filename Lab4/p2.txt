@@ -1,0 +1,16 @@
+int a;
+int b;
+int r;
+read(a);
+read(b);
+if(a==0 and b==0) 
+{
+	a=-1
+}
+while (b!=0)
+{
+	r = a % b;
+	a = b;
+	b = r
+}
+write(a);

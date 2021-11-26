@@ -2,7 +2,7 @@
 
 class Parser:
     def __init__(self, grammar):
-        self.__grammar = grammar
+        self.grammar = grammar
 
     def Success(self, config):
         config['s'] = 'f'
@@ -10,7 +10,7 @@ class Parser:
 
     def Expand(self, config):
         if config['alpha'] is None:
-            config['alpha'] = config['beta'][0]
+            config['alpha'] = [config['beta'][0]]
         else:
             config['alpha'].append(config['beta'][0])
         # config['beta'] se modifica da nu m-am mai uitat atent cu ce, cautam maine eventual
@@ -18,7 +18,10 @@ class Parser:
 
     def Advance(self, config):
         config['i'] = config['i'] + 1
-        config['alpha'].append(config['beta'][0])
+        if config['alpha'] is None:
+            config['alpha'] = [config['beta'][0]]
+        else:
+            config['alpha'].append(config['beta'][0])
         config['beta'] = config['beta'][1:]
         return config
 
@@ -34,27 +37,31 @@ class Parser:
 
     def AnotherTry(self, config):
         config['s'] = 'q'
-        # mai multe vrajeli aici
+        prods = self.grammar.getProdForNonTerm(config['alpha'][-1])
+        config['alpha'].append(prods[0])
         return config
 
     def recursive_descent(self, w):
         n = len(w)
-        config = {'s': 'q', 'i': 1, 'alpha': None, 'beta': w}
+        config = {'s': 'q', 'i': 0, 'alpha': None, 'beta': w}
         while config['s'] != 'f' and config['s'] != 'e':
             if config['s'] == 'q':
-                if config['i'] == n + 1 and config['beta'] == None:
+                if config['i'] == n and config['beta'] == '':
                     config = self.Success(config)
                 else:
-                    if config['beta'][0] in self.__grammar.getNonTerms:  # ceva nonterminal, nu A
+                    if config['beta'][0] in self.grammar.getNonTerms():  # ceva nonterminal, nu A
                         config = self.Expand(config)
                     else:
-                        if config['beta'][0] in w:  # ceva terminal, nu a
+                        if config['beta'][0] in self.grammar.getAlphabet():  # ceva terminal, nu a
                             config = self.Advance(config)
                         else:
                             config = self.MomentaryInsuccess(config)
             else:
                 if config['s'] == 'b':
-                    if config['alpha'] in w:  # same
+                    alphaString = ''
+                    for c in config['alpha']:
+                        alphaString += c
+                    if alphaString in self.grammar.getAlphabet():  # same
                         config = self.Back(config)
                     else:
                         config = self.AnotherTry(config)
