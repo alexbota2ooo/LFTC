@@ -1,8 +1,11 @@
 from grammar import *
+from Parser import *
 
 if __name__ == '__main__':
     option=-1
-    grammar = Grammar("g1.in")
+    grammar = Grammar("g2.in")
+    parser = Parser(grammar)
+    #print(parser.recursive_descent())  trebuie adaugat 'w' ca sa putem testa
     print(grammar.checkCFG())
     print("0. Exit")
     print("1. Set of NonTerminals")

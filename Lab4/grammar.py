@@ -14,25 +14,20 @@ class Grammar:
         file = open(self.__filename, 'r')
         line = file.readline().strip()
 
-        # read the nonterminals
-        delimiters = "=", "{", "}"
-        regexPattern = '|'.join(map(re.escape, delimiters))  # = or { or } in regex
 
         tokens = []
-        tokens.append(line.strip().split('=')[0].strip())
-        nonterminals = (line.strip().split('=')[1].strip().replace('{', '').replace('}','').split(","))
-        #nonterminals = tokens[2].split(",")
+        tokens.append(line.strip().split('->')[0].strip())
+        nonterminals = (line.strip().split('->')[1].strip().replace('{', '').replace('}','').split(","))
 
         for nont in nonterminals:
             self.__nonterminals.append(nont)
 
         #alphabet
         line = file.readline().strip()
-        delimiters = "=", "{", "}"
 
         tokens = []
-        tokens.append(line.strip().split('=')[0].strip())
-        alphabet = (line.strip().split('=')[1].strip().replace('{', '').replace('}', '').split(","))
+        tokens.append(line.strip().split('->')[0].strip())
+        alphabet = (line.strip().split('->')[1].strip().replace('|', '').replace('|', '').split(","))
 
 
         for alpha in alphabet:
@@ -53,7 +48,7 @@ class Grammar:
             tokens = re.split(regexPattern, line)
             if tokens[2] == '':
                 tokens[2] = '-'
-
+            tokens[2]
             if tokens[0] not in self.__productions.keys():
                 self.__productions[tokens[0]] = [tokens[2]]
             else:
@@ -84,6 +79,7 @@ class Grammar:
     def checkCFG(self):
         for key in self.__productions.keys():
             if key not in self.__nonterminals:
+                print(key)
                 return False
             leftSide = self.__productions[key]
             for t in leftSide:
@@ -91,5 +87,7 @@ class Grammar:
                 for symbol in t:
                     if symbol != "":
                         if symbol not in self.__nonterminals and symbol not in self.__alphabet and symbol != "epsilon":
+                            print(symbol)
                             return False
         return True
+
