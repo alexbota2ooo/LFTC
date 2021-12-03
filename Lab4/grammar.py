@@ -71,7 +71,7 @@ class Grammar:
         return self.__productions
 
     def getProdForNonTerm(self, nonTerminal):
-        if nonTerminal not in self.__productions.keys():
+        if nonTerminal not in self.getProductions().keys():
             return []
         return self.__productions[nonTerminal]
 

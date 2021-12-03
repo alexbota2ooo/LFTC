@@ -1,0 +1,11 @@
+N->{S,A,B}
+E->|a,b|
+S=S
+S->a B
+S->b A
+A->a
+A->a S
+A->b A A
+B->b
+B->b S
+B->a B B
