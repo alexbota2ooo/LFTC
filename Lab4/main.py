@@ -3,11 +3,21 @@ from Parser import *
 
 if __name__ == '__main__':
     option=-1
+    # grammar = Grammar("g1.in")
     grammar = Grammar("g3.in")
     parser = Parser(grammar)
 
-    print(parser.recursive_descent('abba')) # trebuie adaugat 'w' ca sa putem testa
+    f = open("p2.txt", "r")
+
+    string = f.read()
+
+    # 'baabba'
+    # print(parser.recursive_descent('++(+)'))
+    parser.recursive_descent('abba')
+    # print(parser.recursive_descent('abba'))
     print(grammar.checkCFG())
+
+    print()
     print("0. Exit")
     print("1. Set of NonTerminals")
     print("2. The alphabet")
@@ -17,7 +27,7 @@ if __name__ == '__main__':
     print("6. Get input sequence")
 
     while(option!=0):
-        option=int(input("option:"))
+        option=int(input("option: "))
         if option==1:
             print(grammar.getNonTerms())
         elif option==2:
