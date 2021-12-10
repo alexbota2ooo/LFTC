@@ -63,7 +63,6 @@ class Parser:
         return config
 
     def buildStringOfProd(self, workingStack):
-        print(workingStack)
         result = []
         for x in workingStack:
             for e in x:
@@ -81,6 +80,7 @@ class Parser:
 
     def recursive_descent(self, w):
         n = len(w)
+        print(n)
         config = {'s': 'q', 'i': 1, 'alpha': [], 'beta': [self.grammar.getStartingSymb()]}
         while config['s'] != 'f' and config['s'] != 'e':
             print(config)
@@ -92,7 +92,7 @@ class Parser:
                         print("expand")
                         config = self.Expand(config)
                     else:
-                        if config['beta'] and config['beta'][0] == w[config['i'] - 1]:
+                        if config['beta'] and config['i'] - 1 < n and config['beta'][0] == w[config['i'] - 1]:
                             print("advance")
                             config = self.Advance(config, w)
                         else:
