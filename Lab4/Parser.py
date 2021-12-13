@@ -92,7 +92,7 @@ class Parser:
                         print("expand")
                         config = self.Expand(config)
                     else:
-                        if config['beta'] and config['beta'][0] == w[config['i'] - 1]:
+                        if config['beta'] and config['i'] - 1 < n and config['beta'][0] == w[config['i'] - 1]:
                             print("advance")
                             config = self.Advance(config, w)
                         else:
@@ -115,4 +115,5 @@ class Parser:
             print()
             print("Production string:")
             print(self.buildStringOfProd(config['alpha']))
+            print()
 
