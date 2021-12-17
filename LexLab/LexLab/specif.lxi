@@ -1,0 +1,49 @@
+%{ 	 
+#include <math.h> 
+#include <stdio.h>
+int lines = 0;
+%} 
+%option noyywrap
+
+DIGIT 		[0-9]
+STRING		["]([a-zA-Z])*["]
+NUMBER		[-]?[1-9][0-9]*|0
+NR_REAL		{NUMBER}+"."{DIGIT}*
+ID 		[a-zA-Z][a-zA-Z0-9]{0,7}
+KEYWORD "int"|"string"|"const"|"if"|"else"|"read"|"write"|"while"|"true"|"false"
+OPERATOR "+"|":"|"-"|"/"|"<"|">"|"="|"!="|"and"|"or"
+SEPARATORS "("|")"|"{"|"}"|";"|","
+CONST_INT "-?[0-9]+"
+
+
+%% 
+
+{KEYWORD}	{printf( "Reserved word: %s\n", yytext );  return KEYWORD;}
+{STRING}	{printf( "Reserved word: %s\n", yytext );  return STRING;}
+{DIGIT}		{printf( "Reserved word: %s\n", yytext );  return DIGIT;}
+{NUMBER}	{printf( "Reserved word: %s\n", yytext );  return NUMBER;}
+{ID}	{printf( "Reserved word: %s\n", yytext );  return ID;}
+{OPERATOR}	{printf( "Reserved word: %s\n", yytext );  return OPERATOR;}
+{SEPARATORS}	{printf( "Reserved word: %s\n", yytext );  return SEPARATORS;}
+{CONST_INT}	{printf( "Reserved word: %s\n", yytext );  return CONST_INT;}
+
+[\n]+	{++lines;}
+
+[a-zA-Z][a-zA-Z0-9]{8,}	{printf("Illegal size of the identifier at line %d\n", lines); return -1;}
+
+[0-9][a-zA-Z0-9]{0,7}	{printf("Illegal identifier at line %d\n", lines); return -1;}
+
+.	{printf("Illegal symbol at line\n"); return -1;}
+
+%% 
+main( argc, argv ) 
+int argc; 
+char **argv; 
+{ 
+    ++argv, --argc; /* skip over program name */ 
+    if ( argc > 0 ) 
+    yyin = fopen( argv[0], "r" ); 
+    else 
+     yyin = stdin; 
+    yylex(); 
+} 
